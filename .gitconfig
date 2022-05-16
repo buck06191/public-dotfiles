@@ -1,0 +1,9 @@
+[user]
+	name = Josh Buckland
+	email = josh.russell.buckland@gmail.com
+[init]
+	defaultBranch = main
+[pull]
+	rebase = false
+[core]
+	editor = nvim
