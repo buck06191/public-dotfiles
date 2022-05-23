@@ -14,15 +14,18 @@ local telescope = require('telescope')
 local actions = require('telescope.actions')
 
 telescope.setup{
-  file_ignore_patterns = { "node%_modules/.*" },
   defaults = {
+    file_ignore_patterns = { "node%_modules/.*" },
     mappings = {
       n = {
         ["q"] = actions.close
       },
     },
+  },
+  pickers = {
+    find_files = {
+      hidden = true,
+    }
   }
 }
 EOF
-
-
