@@ -9,7 +9,7 @@ scriptencoding utf-8
 if !1 | finish | endif
 
 set nocompatible
-set number
+set number relativenumber
 syntax enable
 set fileencodings=utf-8
 set encoding=utf-8
@@ -33,6 +33,13 @@ endif
 
 " Suppress appending <PasteStart> and <PasteEnd> when pasting
 set t_BE=
+
+" Autotoggle line numbering
+:augroup numbertoggle
+:  autocmd!
+:  autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu && mode() != "i" | set rnu   | endif
+:  autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu                  | set nornu | endif
+:augroup END
 
 set nosc noru nosm
 " Don't redraw while executing macros (good performance config)
@@ -137,10 +144,9 @@ if exists("&termguicolors") && exists("&winblend")
   set wildoptions=pum
   set pumblend=5
   set background=dark
-  " Use NeoSolarized
-  let g:neosolarized_termtrans=1
-  runtime ./colors/NeoSolarized.vim
-  colorscheme NeoSolarized
+  let g:tokyonight_style = "night"
+  colorscheme tokyonight
+
 endif
 
 "}}}

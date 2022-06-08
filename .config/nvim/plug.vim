@@ -26,12 +26,15 @@ if has("nvim")
   Plug 'nvim-lua/popup.nvim'
   Plug 'jose-elias-alvarez/null-ls.nvim'
   Plug 'jose-elias-alvarez/nvim-lsp-ts-utils'
+  Plug 'hashivim/vim-terraform'
+  Plug 'terrortylor/nvim-comment'
   Plug 'nvim-lua/plenary.nvim'
   Plug 'nvim-telescope/telescope.nvim'
   Plug 'windwp/nvim-autopairs'
   Plug 'windwp/nvim-ts-autotag'
   Plug 'scrooloose/nerdtree'
   Plug 'ryanoasis/vim-devicons'
+  Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
 endif
 
 call plug#end()
