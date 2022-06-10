@@ -3,6 +3,7 @@ local nvim_lsp = require("lspconfig")
 local util = require("lspconfig/util")
 local protocol = require("vim.lsp.protocol")
 local null_ls = require("null-ls")
+require("nvim_comment").setup()
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
@@ -140,12 +141,23 @@ end
 
 vim.api.nvim_command([[autocmd BufWritePre *.go lua OrgImports(1000)]])
 
+-- terraform set up
+
+nvim_lsp.terraformls.setup({
+	on_attach = on_attach,
+	capabilities = capabilities,
+	cmd = { "terraform-ls", "serve" },
+})
+
+vim.api.nvim_command([[autocmd BufWritePre *.tf lua vim.lsp.buf.formatting_sync()]])
+
 -- null-ls set up
 null_ls.setup({
 	sources = {
 		null_ls.builtins.diagnostics.eslint_d,
 		null_ls.builtins.code_actions.eslint_d,
-		null_ls.builtins.formatting.prettier,
+		null_ls.builtins.formatting.prettierd,
+		null_ls.builtins.diagnostics.stylelint,
 		null_ls.builtins.formatting.stylua,
 		-- 	null_ls.builtins.diagnostics.golangci_lint,
 	},
