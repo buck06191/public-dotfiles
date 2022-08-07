@@ -28,10 +28,11 @@ local config = {
           require("window-picker").setup()
         end,
       },
+      {"benknoble/vim-racket"},
       -- Rust support
       {
         "simrat39/rust-tools.nvim",
-        after = { "nvim-lspconfig", "nvim-lsp-installer" },
+        after = { "nvim-lspconfig", "mason" },
         -- Is configured via the server_registration_override installed below!
         config = function()
           -- local extension_path = vim.fn.stdpath "data" .. "/dapinstall/codelldb/extension"
@@ -113,10 +114,13 @@ local config = {
         "scss",
         "go",
         "rust",
+        "astro",
+        "vue",
+        "racket"
       },
     },
-    ["nvim-lsp-installer"] = {
-      ensure_installed = { "sumneko_lua", "tsserver", "gopls", "rust-analyzer" },
+    ["mason"] = {
+      ensure_installed = { "sumneko_lua", "tsserver", "gopls", "rust-analyzer", "astro", "vue" },
     },
     packer = {
       compile_path = vim.fn.stdpath "data" .. "/packer_compiled.lua",
