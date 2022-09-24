@@ -14,6 +14,7 @@ plugins=(
     macos 
     git
     colored-man-pages
+    rust
     yarn-autocompletions
     zsh-autosuggestions
     zsh-syntax-highlighting
@@ -23,6 +24,7 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
+export PATH=$HOME/.bin:$PATH
 # fnm
 export PATH=$HOME/.fnm:$PATH
 eval "`fnm env`"
@@ -63,6 +65,16 @@ export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
 CARGO_NAME="Josh Buckland"
 CARGO_EMAIL="josh.russell.buckland@gmail.com"
+
+
+## Go
+export GOPATH=$(go env GOPATH)
+export PATH="$GOPATH/bin:$PATH"
+
+# Pyenv
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
 
 ## Neovim
 alias vim=nvim
