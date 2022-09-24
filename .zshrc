@@ -2,7 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/josh.buckland/.oh-my-zsh"
+export ZSH="${HOME}/.oh-my-zsh"
 
 ZSH_THEME="spaceship"
 
@@ -25,6 +25,16 @@ source $ZSH/oh-my-zsh.sh
 # User configuration
 
 export PATH=$HOME/.bin:$PATH
+export EDITOR='nvim'
+
+alias szsh="source ${HOME}/.zshrc"
+
+
+
+# Custom bin path
+
+export PATH="$HOME/.bin:$PATH"
+
 # fnm
 export PATH=$HOME/.fnm:$PATH
 eval "`fnm env`"
@@ -56,6 +66,14 @@ if [ -z "$SSH_AUTH_SOCK" ]; then
    eval `cat .ssh/ssh-agent`
 fi
 
+# zsh-completions
+if type brew &>/dev/null; then
+    FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+
+    autoload -Uz compinit
+    compinit
+fi
+
 # Yarn
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
@@ -75,7 +93,6 @@ export PATH="$GOPATH/bin:$PATH"
 export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
-
 ## Neovim
 alias vim=nvim
 
