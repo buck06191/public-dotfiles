@@ -1,9 +1,20 @@
+# This is Git's per-user configuration file.
 [user]
+# Please adapt and uncomment the following lines	
 	name = Josh Buckland
 	email = josh.russell.buckland@gmail.com
-[init]
-	defaultBranch = main
+	signingkey = BE50F956888A031A
+
+[commit]
+	template = /Users/josh.buckland/.gitmessage
+	gpgsign = true
+[gpg]
+	program = gpg
+[core]
+	editor = lvim
 [pull]
 	rebase = false
-[core]
-	editor = nvim
+[alias]
+  fixup = "!git log -n 50 --pretty=format:'%h %s' --no-merges | fzf | cut -c -7 | xargs -o git commit --fixup"
+[init]
+	defaultBranch = main
