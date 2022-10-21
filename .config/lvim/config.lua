@@ -79,6 +79,8 @@ lvim.builtin.treesitter.ensure_installed = {
   "rust",
   "java",
   "yaml",
+  "markdown",
+  "go"
 }
 
 lvim.builtin.treesitter.ignore_install = { "haskell" }
@@ -143,6 +145,10 @@ formatters.setup {
   {
     command = "stylelint",
     filetypes = { "scss", "sass" }
+  },
+  {
+    command = "markdownlint",
+    filetypes = { "markdown" }
   }
 }
 
@@ -160,10 +166,14 @@ linters.setup {
   {
     command = "codespell",
     ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
-    filetypes = { "javascript", "python", "scheme" },
+    filetypes = { "javascript", "python", "scheme", "markdown" },
   },
-  { command = "eslint_d",
+  {
+    command = "eslint_d",
     filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "vue" },
+  },
+  { command = "markdownlint",
+    filetypes = { "markdown" }
   }
 }
 
