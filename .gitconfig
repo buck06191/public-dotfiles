@@ -3,7 +3,6 @@
 # Please adapt and uncomment the following lines	
 	name = Josh Buckland
 	email = josh.russell.buckland@gmail.com
-	signingkey = BE50F956888A031A
 
 [commit]
 	template = /Users/josh.buckland/.gitmessage
