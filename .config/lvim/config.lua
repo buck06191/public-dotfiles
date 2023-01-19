@@ -5,13 +5,20 @@ Linters should be
 filled in as strings with either
 a global executable or a path to
 an executable
-]]
+--]]
 -- THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
+
+local lsp = require "lvim.lsp"
+local formatters = require "lvim.lsp.null-ls.formatters"
+local linters = require "lvim.lsp.null-ls.linters"
+local code_actions = require "lvim.lsp.null-ls.code_actions"
+local nvim_lsp = require "lspconfig"
+
 
 -- general
 lvim.log.level = "warn"
 lvim.format_on_save = true
-lvim.colorscheme = "tokyonight"
+lvim.colorscheme = "tokyonight-storm"
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 
@@ -50,7 +57,7 @@ lvim.builtin.which_key.mappings["t"] = {
   name = "+Trouble",
   r = { "<cmd>Trouble lsp_references<cr>", "References" },
   f = { "<cmd>Trouble lsp_definitions<cr>", "Definitions" },
-  d = { "<cmd>Trouble document_diagnostics<cr>", "Diagnostics" },
+  d = { "<cmd>TroubleToggle document_diagnostics<cr>", "Diagnostics" },
   q = { "<cmd>Trouble quickfix<cr>", "QuickFix" },
   l = { "<cmd>Trouble loclist<cr>", "LocationList" },
   w = { "<cmd>Trouble workspace_diagnostics<cr>", "Workspace Diagnostics" },
@@ -60,7 +67,7 @@ lvim.builtin.which_key.mappings["t"] = {
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
 lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "dashboard"
-lvim.builtin.notify.active = true
+-- lvim.builtin.notify.active = true
 lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
@@ -79,6 +86,7 @@ lvim.builtin.treesitter.ensure_installed = {
   "rust",
   "java",
   "yaml",
+  "hcl",
   "markdown",
   "go"
 }
@@ -107,9 +115,123 @@ lvim.builtin.treesitter.highlight.enabled = true
 
 -- ---configure a server manually. !!Requires `:LvimCacheReset` to take effect!!
 -- ---see the full default list `:lua print(vim.inspect(lvim.lsp.automatic_configuration.skipped_servers))`
-vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "rust_analyzer" })
--- local opts = {} -- check the lspconfig documentation for a list of all possible options
--- require("lvim.lsp.manager").setup("pyright", opts)
+vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers,
+  { "rust_analyzer", "terraformls", "yamlls", "tsserver", "denols" })
+
+
+local tf_opts = {
+  cmd = { "terraform-ls", "serve" },
+  filetypes = { "terraform", "terraform-vars" },
+  on_attach = lsp.common_on_attach,
+  capabilities = lsp.common_capabilities()
+} -- check the lspconfig documentation for a list of all possible options
+
+require("lvim.lsp.manager").setup("terraformls", tf_opts)
+
+
+local yaml_opts = {
+  settings = {
+    yaml = {
+      schemas = {
+        ["http://json.schemastore.org/github-workflow"] = ".github/workflows/*.{yml,yaml}",
+        ["http://json.schemastore.org/github-action"] = ".github/action.{yml,yaml}",
+        ["http://json.schemastore.org/ansible-stable-2.9"] = "roles/tasks/*.{yml,yaml}",
+      },
+    },
+  }
+}
+
+require("lvim.lsp.manager").setup("yamlls", yaml_opts)
+
+
+--#region Typescript
+
+-- Deno Setup
+
+require("lvim.lsp.manager").setup("denols", {
+  on_attach = lsp.common_on_attach,
+  single_file_support = false,
+
+  root_dir = nvim_lsp.util.root_pattern("deno.json", "deno.jsonc"),
+  init_options = {
+    enable = true,
+    lint = true,
+    unstable = false,
+  }
+
+})
+
+formatters.setup {
+  {
+    command = "deno_fmt",
+    filetypes = {
+      "typescript"
+    },
+    condition =
+    function(utils)
+      return utils.root_has_file({ "deno.json", "deno.jsonc" })
+    end
+
+  }
+}
+
+
+-- Node Setup
+
+
+require("lvim.lsp.manager").setup("tsserver", {
+  on_attach = lsp.common_on_attach,
+  root_dir = nvim_lsp.util.root_pattern("package.json", "tsconfig.json"),
+})
+
+
+formatters.setup {
+  {
+    -- each formatter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
+    command = "prettierd",
+    filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx",
+      "json", "jsonc" },
+    condition =
+    function(utils)
+      return utils.root_has_file({ "tsconfig.json", "package.json" })
+    end
+
+  },
+}
+
+
+linters.setup {
+  { command = "eslint_d",
+    filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx",
+      "vue" },
+    condition =
+    function(utils)
+      return utils.root_has_file({ "tsconfig.json", "package.json" })
+    end
+  }
+
+
+}
+
+code_actions.setup {
+  {
+    exe = "eslint_d",
+    filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx",
+      "vue" },
+    condition =
+    function(utils)
+      return utils.root_has_file({ "tsconfig.json", "package.json" })
+    end
+
+  },
+}
+
+--#endregion
+
+
+
+
+
 
 -- ---remove a server from the skipped list, e.g. eslint, or emmet_ls. !!Requires `:LvimCacheReset` to take effect!!
 -- ---`:LvimInfo` lists which server(s) are skipped for the current filetype
@@ -129,31 +251,30 @@ vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "rust_analyz
 
 
 -- -- set a formatter, this will override the language server formatting capabilities (if it exists)
-local formatters = require "lvim.lsp.null-ls.formatters"
 formatters.setup {
   --   { command = "black", filetypes = { "python" } },
   --   { command = "isort", filetypes = { "python" } },
-  {
-    -- each formatter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
-    command = "prettierd",
-    ---@usage arguments to pass to the formatter
-    -- these cannot contain whitespaces, options such as `--line-width 80` become either `{'--line-width', '80'}` or `{'--line-width=80'}`
-    -- extra_args = { "--print-with", "100" },
-    ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
-    filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "json", "jsonc" },
-  },
+  -- {
+  --   -- each formatter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
+  --   command = "prettierd",
+  --   ---@usage arguments to pass to the formatter
+  --   -- these cannot contain whitespaces, options such as `--line-width 80` become either `{'--line-width', '80'}` or `{'--line-width=80'}`
+  --   -- extra_args = { "--print-with", "100" },
+  --   ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
+  --   filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx",
+  --     "json", "jsonc" },
+  -- },
   {
     command = "stylelint",
-    filetypes = { "scss", "sass" }
+    filetypes = { "css", "scss", "sass" }
   },
   {
-    command = "markdownlint",
-    filetypes = { "markdown" }
+    command = "yamlfmt",
+    filetypes = { "yaml", "yaml.docker-compose" }
   }
 }
 
 -- -- set additional linters
-local linters = require "lvim.lsp.null-ls.linters"
 linters.setup {
   { command = "flake8", filetypes = { "python" } },
   {
@@ -166,26 +287,27 @@ linters.setup {
   {
     command = "codespell",
     ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
-    filetypes = { "javascript", "python", "scheme", "markdown" },
+    filetypes = { "markdown" },
   },
   {
-    command = "eslint_d",
-    filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "vue" },
-  },
-  { command = "markdownlint",
+    command = "markdownlint",
     filetypes = { "markdown" }
   }
+  -- { command = "eslint_d",
+  --   filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx",
+  --     "vue" },
+  -- }
 }
 
 -- -- set code completion actions
 -- TODO: below might not be needed
-local code_actions = require "lvim.lsp.null-ls.code_actions"
-code_actions.setup {
-  {
-    exe = "eslint_d",
-    filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact", "vue" },
-  },
-}
+-- code_actions.setup {
+--   {
+--     exe = "eslint_d",
+--     filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx",
+--       "vue" },
+--   },
+-- }
 
 -- Additional Plugins
 lvim.plugins = {
@@ -202,6 +324,10 @@ lvim.plugins = {
 }
 
 
+
+
+
+
 -- Rust tools need setting up outside the config function
 local status_ok, rust_tools = pcall(require, "rust-tools")
 if not status_ok then
@@ -209,7 +335,6 @@ if not status_ok then
   return
 end
 
-local lsp = require "lvim.lsp"
 local executors = require "rust-tools.executors"
 
 rust_tools.setup {
