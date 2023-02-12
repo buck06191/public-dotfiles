@@ -1,0 +1,16 @@
+name: Neovim CI/CD
+on:
+  push:
+    paths:
+      '**.lua'
+jobs:
+  stylua:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - uses: JohnnyMorganz/stylua-action@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          version: latest 
+          args: --check .
