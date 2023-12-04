@@ -4,7 +4,6 @@
 # Path to your oh-my-zsh installation.
 export ZSH="${HOME}/.oh-my-zsh"
 
-ZSH_THEME="spaceship"
 
 # Uncomment the following line to use case-sensitive completion.
 CASE_SENSITIVE="true"
@@ -21,6 +20,8 @@ plugins=(
 )
 
 source $ZSH/oh-my-zsh.sh
+eval "$(starship init zsh)"
+
 
 # User configuration
 
@@ -86,8 +87,8 @@ CARGO_EMAIL="josh.russell.buckland@gmail.com"
 
 
 ## Go
-export GOPATH=$(go env GOPATH)
-export PATH="$GOPATH/bin:$PATH"
+# export GOPATH=$(go env GOPATH)
+# export PATH="$GOPATH/bin:$PATH"
 
 # Pyenv
 export PYENV_ROOT="$HOME/.pyenv"
@@ -97,4 +98,4 @@ eval "$(pyenv init -)"
 alias vim=nvim
 
 ## Secrets
-source $HOME/.dotfiles/secrets
+# source $HOME/.dotfiles/secrets
