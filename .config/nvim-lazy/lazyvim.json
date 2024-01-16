@@ -2,8 +2,8 @@
   "extras": [
     "lazyvim.plugins.extras.coding.yanky",
     "lazyvim.plugins.extras.dap.core",
+    "lazyvim.plugins.extras.lang.go",
     "lazyvim.plugins.extras.lang.markdown",
-    "lazyvim.plugins.extras.lang.yaml",
     "lazyvim.plugins.extras.lsp.none-ls"
   ],
   "news": {
