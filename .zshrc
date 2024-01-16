@@ -38,7 +38,7 @@ export PATH="$HOME/.bin:$PATH"
 
 # fnm
 export PATH=$HOME/.fnm:$PATH
-eval "`fnm env`"
+eval "$(fnm env --use-on-cd --version-file-strategy=recursive)"
 
 alias "nvm"="fnm"
 
@@ -55,6 +55,10 @@ git_clean_remote() {
 }
 
 alias gfuckit='git commit --amend --no-edit && gpf' 
+
+## TODO
+
+alias t="todo.sh"
 
 # SSH Agent
 if [ -z "$SSH_AUTH_SOCK" ]; then
@@ -87,8 +91,8 @@ CARGO_EMAIL="josh.russell.buckland@gmail.com"
 
 
 ## Go
-# export GOPATH=$(go env GOPATH)
-# export PATH="$GOPATH/bin:$PATH"
+export GOPATH=$(go env GOPATH)
+export PATH="$GOPATH/bin:$PATH"
 
 # Pyenv
 export PYENV_ROOT="$HOME/.pyenv"
@@ -99,3 +103,5 @@ alias vim=nvim
 
 ## Secrets
 # source $HOME/.dotfiles/secrets
+autoload bashcompinit && bashcompinit
+autoload -Uz compinit && compinit
