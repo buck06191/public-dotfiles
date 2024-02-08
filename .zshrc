@@ -68,7 +68,8 @@ if [ -z "$SSH_AUTH_SOCK" ]; then
    eval `cat .ssh/ssh-agent`
 fi
 
-
+# Zellij Aliases
+alias "zjgo"="zellij action new-tab --layout ${HOME}/.config/zellij/layouts/golang_testing.kdl"
 
 
 # fnm
