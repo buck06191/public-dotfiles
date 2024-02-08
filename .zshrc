@@ -35,18 +35,18 @@ alias szsh="source ${HOME}/.zshrc"
 # Custom bin path
 
 export PATH="$HOME/.bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
 
-# fnm
-export PATH=$HOME/.fnm:$PATH
-eval "$(fnm env --use-on-cd --version-file-strategy=recursive)"
+# Neovim
+alias vim=nvim
 
-alias "nvm"="fnm"
-
-# Github GPG Signing
-export GPG_TTY=$(tty)
+# git setup 
 
 ## Github
-# Clean up git branches
+## Github GPG Signing
+export GPG_TTY=$(tty)
+
+## Clean up git branches
 git_clean_remote() {
   git fetch -p && \
   for branch in $(git for-each-ref --format '%(refname) %(upstream:track)' refs/heads | awk '$2 == "[gone]" {sub("refs/heads/", "", $1); print $1}'); 
@@ -56,11 +56,8 @@ git_clean_remote() {
 
 alias gfuckit='git commit --amend --no-edit && gpf' 
 
-## TODO
 
-alias t="todo.sh"
-
-# SSH Agent
+## SSH Agent
 if [ -z "$SSH_AUTH_SOCK" ]; then
    # Check for a currently running instance of the agent
    RUNNING_AGENT="`ps -ax | grep 'ssh-agent -s' | grep -v grep | wc -l | tr -d '[:space:]'`"
@@ -71,41 +68,56 @@ if [ -z "$SSH_AUTH_SOCK" ]; then
    eval `cat .ssh/ssh-agent`
 fi
 
-# zsh-completions
-if type brew &>/dev/null; then
-    FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
 
-    autoload -Uz compinit
-    compinit
-fi
+
+
+# fnm
+export PATH=$HOME/.fnm:$PATH
+eval "$(fnm env --use-on-cd --version-file-strategy=recursive)"
+
+alias "nvm"="fnm"
+
 
 # Yarn
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
 ## Rust
-
 . "$HOME/.cargo/env"
 
 CARGO_NAME="Josh Buckland"
 CARGO_EMAIL="josh.russell.buckland@gmail.com"
+
+export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
+export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
 
 
 ## Go
 export GOPATH=$(go env GOPATH)
 export PATH="$GOPATH/bin:$PATH"
 
-# Pyenv
-export PYENV_ROOT="$HOME/.pyenv"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
+## Elixir/Erlang
+# asdf
+. /opt/homebrew/opt/asdf/libexec/asdf.sh
 
-# KrakenFlex config
-source ~/.zshrc-kf
+# elixir/erlang
+export ERL_AFLAGS="-kernel shell_history enabled"
 
-## Neovim
-alias vim=nvim
+# opam configuration
+[[ ! -r /Users/joshbuckland/.opam/opam-init/init.zsh ]] || source /Users/joshbuckland/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null
 
-## Secrets
-# source $HOME/.dotfiles/secrets
-autoload bashcompinit && bashcompinit
-autoload -Uz compinit && compinit
+
+# Optional Config 
+
+## KrakenFlex config
+test -f $HOME/.zshrc-kf && source $HOME/.zshrc-kf
+
+## secrets
+test -f $HOME/.dotfiles/secrets && source $HOME/.dotfiles/secrets
+
+# zsh-completions
+if type brew &>/dev/null; then
+    FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+
+    autoload bashcompinit && bashcompinit
+    autoload -Uz compinit && compinit
+fi

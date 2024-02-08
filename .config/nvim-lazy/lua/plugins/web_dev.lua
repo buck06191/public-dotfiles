@@ -18,6 +18,7 @@ return {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {
+        astro = {},
         yamlls = {
           settings = {
             yaml = {
