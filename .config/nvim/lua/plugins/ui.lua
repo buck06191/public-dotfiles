@@ -1,12 +1,29 @@
 return {
-  -- add gruvbox
-  { "ellisonleao/gruvbox.nvim" },
+  {
+    "catppuccin",
+    opts = {
+      flavour = "mocha",
+      color_overrides = {
+        mocha = {
+          base = "#000000",
+          mantle = "#000000",
+          crust = "#000000",
+        },
+      },
+      integrations = {
+        telescope = {
+          enabled = true,
+          style = "nvchad",
+        },
+      },
+    },
+  },
 
-  -- Configure LazyVim to load gruvbox
+  -- Configure LazyVim to load catppuccin
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "gruvbox",
+      colorscheme = "catppuccin",
     },
   },
 
