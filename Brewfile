@@ -27,7 +27,7 @@ brew "zsh-completions"
 # Casks
 cask "rectangle"
 cask "font-go-mono-nerd-font"
-cask "kitty"
+cask "alacritty"
 
 # Build tools 
 brew "asdf"
