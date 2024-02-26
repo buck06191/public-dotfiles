@@ -1,5 +1,4 @@
 return {
-
   -- correctly setup mason lsp / dap extensions
   {
     "williamboman/mason.nvim",

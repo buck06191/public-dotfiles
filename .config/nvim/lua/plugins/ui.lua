@@ -68,7 +68,6 @@ return {
   },
 
   -- use mini.starter instead of alpha
-  { import = "lazyvim.plugins.extras.ui.mini-starter" },
 
   -- add any tools you want to have installed below
   {
