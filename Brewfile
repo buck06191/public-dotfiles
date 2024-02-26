@@ -20,7 +20,7 @@ brew "tree"
 # TUIs and terminals
 brew "lazygit"
 brew "starship"
-brew "zellij"
+brew "tmux"
 brew "neovim"
 brew "zsh-completions"
 

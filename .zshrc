@@ -30,7 +30,7 @@ export EDITOR='nvim'
 
 alias szsh="source ${HOME}/.zshrc"
 
-
+alias tm="tmux -a || tmux"
 
 # Custom bin path
 
