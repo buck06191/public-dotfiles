@@ -29,5 +29,11 @@ y = 1
 x = 1
 y = 1
 
+[cursor]
+vi_mode_style = { shape = "Beam", blinking = "On" }
+
 [keyboard]
-bindings = [{ key = "Key3", mods = "Alt", chars = "#" }]
+bindings = [
+  { key = "Key3", mods = "Alt", chars = "#" },
+  { key = "Space", mods = "Control | Shift", action = "ToggleViMode" },
+]
