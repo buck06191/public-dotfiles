@@ -1,0 +1,39 @@
+import = ["~/.config/alacritty/catppuccin-mocha.toml"]
+
+[env]
+TERM = "xterm-256color"
+
+[colors]
+draw_bold_text_with_bright_colors = false
+
+[window]
+dynamic_padding = true
+decorations = "transparent"
+opacity = 1
+
+[window.padding]
+x = 10
+y = 20
+
+[font]
+size = 16
+
+[font.normal]
+family = "GoMono Nerd Font"
+
+[font.offset]
+x = 1
+y = 1
+
+[font.glyph_offset]
+x = 1
+y = 1
+
+[cursor]
+vi_mode_style = { shape = "Beam", blinking = "On" }
+
+[keyboard]
+bindings = [
+  { key = "Key3", mods = "Alt", chars = "#" },
+  { key = "Space", mods = "Control | Shift", action = "ToggleViMode" },
+]

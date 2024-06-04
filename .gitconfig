@@ -3,14 +3,15 @@
 # Please adapt and uncomment the following lines	
 	name = Josh Buckland
 	email = josh.russell.buckland@gmail.com
+  signing_key=CHANGE_ME
 
 [commit]
-	template = /Users/josh.buckland/.gitmessage
+	template = ~/.gitmessage
 	gpgsign = true
 [gpg]
 	program = gpg
 [core]
-	editor = lvim
+	editor = nvim
 [pull]
 	rebase = false
 [alias]

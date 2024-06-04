@@ -1,14 +1,11 @@
 # public-dotfiles
 Public Dotfiles Repo
-
 ## Installation
 
-Need to install:
+```
+./install.sh
+```
 
-- `fzf`, `rg`, `fd` 
-- hack nerd font mono (to see the correct icons. Any nerd font will do)
-
-Symlink any config files that can be symlinked across to the cloned repo. 
 Any others will need to be kept in sync manually (e.g. if there are company specific requirements for the `.zshrc` file)
 
 ## Neovim

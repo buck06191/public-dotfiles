@@ -30,8 +30,9 @@ export EDITOR='nvim'
 
 alias szsh="source ${HOME}/.zshrc"
 
+alias tm="tmux attach || tmux"
 
-
+alias lg="lazygit"
 # Custom bin path
 
 export PATH="$HOME/.bin:$PATH"
@@ -67,9 +68,6 @@ if [ -z "$SSH_AUTH_SOCK" ]; then
    fi
    eval `cat .ssh/ssh-agent`
 fi
-
-
-
 
 # fnm
 export PATH=$HOME/.fnm:$PATH
@@ -108,6 +106,7 @@ export ERL_AFLAGS="-kernel shell_history enabled"
 
 # Optional Config 
 
+
 ## KrakenFlex config
 test -f $HOME/.zshrc-kf && source $HOME/.zshrc-kf
 
@@ -121,3 +120,5 @@ if type brew &>/dev/null; then
     autoload bashcompinit && bashcompinit
     autoload -Uz compinit && compinit
 fi
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
