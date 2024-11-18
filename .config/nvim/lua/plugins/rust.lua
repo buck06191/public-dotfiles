@@ -6,4 +6,15 @@ return {
       vim.list_extend(opts.ensure_installed, { "codelldb", "taplo" })
     end,
   },
+
+  -- {
+  --   "neovim/nvim-lspconfig",
+  --   opts = {
+  --     setup = {
+  --       rust_analyzer = function()
+  --         return true
+  --       end,
+  --     },
+  --   },
+  -- },
 }
