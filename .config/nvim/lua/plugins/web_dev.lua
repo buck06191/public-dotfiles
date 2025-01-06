@@ -1,3 +1,4 @@
+local nvim_lsp = require("lspconfig")
 return {
 
   -- {
@@ -11,19 +12,30 @@ return {
   --     })
   --   end,
   -- },
-  {
-    "jxnblk/vim-mdx-js",
-  },
+  -- {
+  --   "jxnblk/vim-mdx-js",
+  -- },
   {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {
+        denols = {
+          filetypes = { "typescript", "typescriptreact" },
+          root_dir = function(...)
+            return nvim_lsp.util.root_pattern("deno.jsonc", "deno.json")(...)
+          end,
+        },
+        vtsls = {
+          root_dir = nvim_lsp.util.root_pattern("package.json"),
+        },
+
         astro = {},
         yamlls = {
           settings = {
             yaml = {
               format = {
                 enable = true,
+                singleQuote = true,
               },
               hover = true,
               completion = true,
