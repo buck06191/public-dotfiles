@@ -1,0 +1,8 @@
+# Bob in path
+export PATH=$HOME/.local/share/bob/nvim-bin:$PATH
+
+
+# Terraform 
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /usr/bin/terraform terraform
+alias tf="terraform"
