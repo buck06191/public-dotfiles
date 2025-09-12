@@ -1,0 +1,22 @@
+
+## Elixir/Erlang
+# asdf
+. /opt/homebrew/opt/asdf/libexec/asdf.sh
+
+# elixir/erlang
+export ERL_AFLAGS="-kernel shell_history enabled"
+
+# opam configuration
+[[ ! -r $HOMe/.opam/opam-init/init.zsh ]] || source $HOMe/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null
+
+
+# fnm
+export PATH=$HOME/.fnm:$PATH
+
+# zsh-completions
+if type brew &>/dev/null; then
+    FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+
+    autoload bashcompinit && bashcompinit
+    autoload -Uz compinit && compinit
+fi

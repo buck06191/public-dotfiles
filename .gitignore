@@ -1,3 +1,5 @@
 .git
 .DS_STORE
 
+.config/lazyvim.json
+.config/lazy-lock.json

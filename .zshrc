@@ -14,10 +14,13 @@ plugins=(
     git
     colored-man-pages
     rust
-    yarn-autocompletions
     zsh-autosuggestions
     zsh-syntax-highlighting
 )
+
+if [[ "$(expr substr $(uname -s) 1 5)" == "Linux" ]]; then
+  fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src
+fi
 
 source $ZSH/oh-my-zsh.sh
 eval "$(starship init zsh)"
@@ -26,6 +29,7 @@ eval "$(starship init zsh)"
 # User configuration
 
 export PATH=$HOME/.bin:$PATH
+export PATH=$HOME/.local/bin:$PATH
 export EDITOR='nvim'
 
 alias szsh="source ${HOME}/.zshrc"
@@ -69,15 +73,6 @@ if [ -z "$SSH_AUTH_SOCK" ]; then
    eval `cat .ssh/ssh-agent`
 fi
 
-# fnm
-export PATH=$HOME/.fnm:$PATH
-eval "$(fnm env --use-on-cd --version-file-strategy=recursive)"
-
-alias "nvm"="fnm"
-
-
-# Yarn
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
 ## Rust
 . "$HOME/.cargo/env"
@@ -93,18 +88,22 @@ export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
 export GOPATH=$(go env GOPATH)
 export PATH="$GOPATH/bin:$PATH"
 
-## Elixir/Erlang
-# asdf
-. /opt/homebrew/opt/asdf/libexec/asdf.sh
-
-# elixir/erlang
-export ERL_AFLAGS="-kernel shell_history enabled"
-
-# opam configuration
-[[ ! -r /Users/joshbuckland/.opam/opam-init/init.zsh ]] || source /Users/joshbuckland/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null
-
 
 # Optional Config 
+
+## OS specific
+if [[ "$(uname)" == "Darwin" ]]; then
+test -f $HOME/.zshrc-mac && source $HOME/.zshrc-mac
+elif [[ "$(expr substr $(uname -s) 1 5)" == "Linux" ]]; then
+test -f $HOME/.zshrc-linux && source $HOME/.zshrc-linux
+fi
+
+
+# fnm
+eval "$(fnm env --use-on-cd --version-file-strategy=recursive)"
+
+alias nvm=fnm
+
 
 
 ## KrakenFlex config
@@ -113,12 +112,7 @@ test -f $HOME/.zshrc-kf && source $HOME/.zshrc-kf
 ## secrets
 test -f $HOME/.dotfiles/secrets && source $HOME/.dotfiles/secrets
 
-# zsh-completions
-if type brew &>/dev/null; then
-    FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
-
-    autoload bashcompinit && bashcompinit
-    autoload -Uz compinit && compinit
-fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+
