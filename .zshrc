@@ -90,6 +90,8 @@ export PATH="$GOPATH/bin:$PATH"
 
 
 # Optional Config 
+#
+export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=6;"
 
 ## OS specific
 if [[ "$(uname)" == "Darwin" ]]; then
@@ -112,6 +114,9 @@ test -f $HOME/.zshrc-kf && source $HOME/.zshrc-kf
 ## secrets
 test -f $HOME/.dotfiles/secrets && source $HOME/.dotfiles/secrets
 
+
+## Zig 
+PATH="$PATH:$HOME/zig-versions/zig-0.14/zig-macos-aarch64-0.14.0-dev.2047+985b13934/"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
