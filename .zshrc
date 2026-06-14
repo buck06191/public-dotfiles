@@ -18,7 +18,9 @@ plugins=(
     zsh-syntax-highlighting
 )
 
-if [[ "$(expr substr $(uname -s) 1 5)" == "Linux" ]]; then
+ARCH=$(uname -s)
+
+if [[ "${ARCH:0:5}" == "Linux" ]]; then
   fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src
 fi
 
@@ -92,9 +94,9 @@ export PATH="$GOPATH/bin:$PATH"
 # Optional Config 
 
 ## OS specific
-if [[ "$(uname)" == "Darwin" ]]; then
+if [[ "${ARCH}" == "Darwin" ]]; then
 test -f $HOME/.zshrc-mac && source $HOME/.zshrc-mac
-elif [[ "$(expr substr $(uname -s) 1 5)" == "Linux" ]]; then
+elif [[ "${ARCH:0:5}" == "Linux" ]]; then
 test -f $HOME/.zshrc-linux && source $HOME/.zshrc-linux
 fi
 
